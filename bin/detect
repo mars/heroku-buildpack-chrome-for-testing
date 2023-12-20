@@ -1,0 +1,4 @@
+#!/bin/sh
+
+echo "Chrome for Testing"
+exit 0
