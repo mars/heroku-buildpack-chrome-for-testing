@@ -12,6 +12,7 @@ set -o pipefail
 BUILD_DIR=$1
 CACHE_DIR=$2
 ENV_DIR=$3
+BUILDPACK_DIR="$(cd "$(dirname "$0")"; cd ..; pwd)"
 
 function error() {
   echo " !     $*" >&2
@@ -61,6 +62,8 @@ ZIP_LOCATION="$INSTALL_DIR/chromedriver.zip"
 curl --silent --show-error --fail --retry 3 --retry-connrefused --connect-timeout 10 -o "${ZIP_LOCATION}" "${ZIP_URL}" | indent
 unzip -q -j -o "$ZIP_LOCATION" -d "$BIN_DIR" | indent
 rm -f "$ZIP_LOCATION"
+
+source "$BUILDPACK_DIR/bin/install-chrome-dependencies"
 
 echo "Adding executables to PATH" | indent
 mkdir -p "$BUILD_DIR/.profile.d"
